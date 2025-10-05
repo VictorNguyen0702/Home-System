@@ -1,18 +1,26 @@
-# app.py
-
-# 1. Import the Flask class
+import requests
 from flask import Flask
+import os
+from battery import battery_bp
 
-# 2. Create an instance of the Flask class
-# __name__ is a built-in variable that tells Flask where to look for resources
 app = Flask(__name__)
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
-# 3. Define a route (URL path)
-@app.route('/')
-def hello_world():
-    # 4. Return the content to be displayed in the browser
-    return 'Hello, Flask World!'
 
-# 5. Optional: Run the application directly (for development)
+@app.route('/login', methods=["POST"])
+def login():
+    response = requests.post(
+        "https://monitor.byte-watt.com/api/usercenter/cloud/user/login", 
+        json= {
+            "username": username,
+            "password": password
+        }, 
+    )
+
+    response.raise_for_status()
+    response_data = response.json()
+    return response_data.get("data", {}).get("token", "")
+
 if __name__ == '__main__':
     app.run(debug=True)
