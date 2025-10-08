@@ -1,10 +1,11 @@
 import requests
-from flask import Flask, Blueprint, request
+from flask import jsonify, Blueprint, request
 import json
 import os
 
 battery_bp = Blueprint('battery_bp', __name__, url_prefix='/battery')
 
+sys_sn = os.getenv('SYSSN')
 sale_price = float(os.getenv('EXPORT_SALE'))
 buy_price = float(os.getenv('IMPORT_COST'))
 
@@ -21,7 +22,7 @@ def system_data():
     response.raise_for_status()
     print(response.json())
     data = response.json().get('data')[0]
-    return {
+    return jsonify({
         'systemSerialNum': data.get('sysSn'), # Single Value
         'systemId': data.get('systemId'), # Single Value
         'systemName': data.get('remark'), # Single Value
@@ -31,12 +32,11 @@ def system_data():
         'installedCapacity': data.get('cobat'), # Single Value
         'usableCapacity': data.get('surpluscobat'), # Single Value
         'usablePercentage': data.get('uscapacity') # Single Value
-    }
+    })
 
 
 @battery_bp.route('daily_graph', methods=['GET'])
 def daily_graph():
-    sys_sn = request.args.get('sysSn')
     date = request.args.get('date')
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1] 
@@ -53,19 +53,18 @@ def daily_graph():
     response.raise_for_status()
 
     data = response.json().get('data')
-    return {
+    return jsonify({
         'time': data.get('time'), # Array of Values
         'batteryPercent': data.get('cbat'), # Array of Values
         'gridExport': data.get('feedIn'), # Array of Values
         'gridImport': data.get('gridCharge'), # Array of Values
         'consumption': data.get('homePower'), # Array of Values
         'generation': data.get('ppv'), # Array of Values
-    }
+    })
 
 
 @battery_bp.route('daily_summary', methods=['GET'])
 def daily_summary():
-    sys_sn = request.args.get('sysSn')
     date = request.args.get('date')
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1] 
@@ -74,7 +73,6 @@ def daily_summary():
     params = {
         'sn': sys_sn,
         'stationId': '',
-        'tday': date
     }
     response = requests.get(
         'https://monitor.byte-watt.com/api/stable/home/getSumDataForCustomer', 
@@ -83,7 +81,7 @@ def daily_summary():
     response.raise_for_status()
 
     data = response.json().get('data')
-    return {
+    return jsonify({
         'consumption': data.get('eload'), # Single Value
         'generation': data.get('epvtoday'), # Single Value
         'batteryCharged': data.get('echarge'), # Single Value
@@ -96,12 +94,11 @@ def daily_summary():
         'treesPlanted': data.get('treeNum'), # Single Value
         'incomeDaily': data.get('todayIncome'), # Single Value
         'incomeTotal': data.get('totalIncome'), # Single Value
-    }
+    })
 
 
 @battery_bp.route('statistics_graph', methods=['GET'])
 def statistics_graph():
-    sys_sn = request.args.get('sysSn')
     start_date = request.args.get('startDate')
     end_date = request.args.get('endDate')
     statisticBy = request.args.get('statisticBy')
@@ -136,7 +133,7 @@ def statistics_graph():
     # gridImport * buyPrice - gridExport * salePrice 
     batteryCost = [round(x * buy_price - y * sale_price, 2) for x, y in zip(gridImport, gridExport)]
 
-    return {
+    return jsonify({
         'statisticsData': {
             'dates': data.get('statisticIndex'), # Array of Values
             'selfConsumption': data.get('eselfconsumption'), # Single Value
@@ -154,12 +151,11 @@ def statistics_graph():
             'panelCost': panelCost, # Array of Values
             'batteryCost': batteryCost, # Array of Values
         },
-    }
+    })
 
 
 @battery_bp.route('current_data', methods=['GET'])
 def current_data():
-    sys_sn = request.args.get('sysSn')
     auth_header = request.headers.get('Authorization')
     token = auth_header.split(' ')[1] 
     headers = {'Authorization': f'Bearer {token}'} 
@@ -175,10 +171,10 @@ def current_data():
     response.raise_for_status()
 
     data = response.json().get('data')
-    return {
+    return jsonify({
         'batteryPercent': data.get('soc'), # Single Value
         'generation': data.get('ppv'), # Single Value
         'consumption': data.get('pload'), # Single Value
         'batteryUsage': data.get('pbat'), # Single Value
         'gridUsage': data.get('pgrid'), # Single Value
-    }
+    })
