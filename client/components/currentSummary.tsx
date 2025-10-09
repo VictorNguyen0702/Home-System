@@ -86,7 +86,7 @@ export default function CurrentSummary({ backendUrl, JWTToken, tokenLoaded }: { 
   }, [intervalTime, backendUrl, JWTToken])
 
   return (
-    <div className="grid grid-cols-5 items-start justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
+    <div className="grid grid-cols-5 w-full h-full items-start justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
       <div className="flex flex-col items-center justify-items-center gap-3">
         <img src='/logos/battery.svg' className="rotate-90" width={75} height={75} />
         <div className="flex flex-col items-center justify-items-center gap-1">

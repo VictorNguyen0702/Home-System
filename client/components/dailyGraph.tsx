@@ -172,8 +172,8 @@ export default function DailyGraph({ backendUrl, JWTToken, tokenLoaded }: { back
   }, [backendUrl, JWTToken])
 
   return (
-    <div className="items-center mx-auto justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
-      <Chart 
+    <div className="items-center w-full h-full mx-auto justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
+      <Chart
         options={chartOptions}
         series={[
           {
@@ -198,7 +198,7 @@ export default function DailyGraph({ backendUrl, JWTToken, tokenLoaded }: { back
           },
         ]}
         type='area'
-        width='800'
+        width='750'
         />
     </div>
   )

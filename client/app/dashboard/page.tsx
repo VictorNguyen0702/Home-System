@@ -1,5 +1,5 @@
 "use client"
-import Image from "next/image";
+
 import { useState, useEffect} from 'react'
 import DailySummary from "@/components/dailySummary";
 import CurrentSummary from "@/components/currentSummary";
@@ -32,14 +32,8 @@ export default function Home() {
 
 
   return (
-    <div className="w-full font-sans items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 bg-gray-950">
-      <div className="flex flex-col mx-auto">
-        <div className="flex flex-row gap-10">
-          <DailySummary backendUrl={backendUrl} JWTToken={JWTToken} tokenLoaded={tokenLoaded}/>
-          <CurrentSummary backendUrl={backendUrl} JWTToken={JWTToken} tokenLoaded={tokenLoaded}/>
-        </div>
-        <DailyGraph backendUrl={backendUrl} JWTToken={JWTToken} tokenLoaded={tokenLoaded}/>
-      </div>
+    <div className="">
+
     </div>
 
 
