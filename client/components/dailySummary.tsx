@@ -16,7 +16,7 @@ interface dailyData {
   treesPlanted : number;
 }
 
-export default function DailySummary({ backendUrl, JWTToken }: { backendUrl: string, JWTToken: string }) {
+export default function DailySummary({ backendUrl, JWTToken, tokenLoaded }: { backendUrl: string, JWTToken: string, tokenLoaded: boolean }) {
   
   const [dailySummary, setDailySummary] = useState<dailyData>({
     batteryCharged : 0,
@@ -52,7 +52,9 @@ export default function DailySummary({ backendUrl, JWTToken }: { backendUrl: str
         console.error("Fetch failed:", error);
       }
     }
-    retrieveDailySummary();
+    if (tokenLoaded) {
+      retrieveDailySummary();
+    }
   }, [backendUrl, JWTToken])
 
   return (

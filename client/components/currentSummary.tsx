@@ -21,7 +21,7 @@ interface systemData {
   usablePercentage: number;
 }
 
-export default function CurrentSummary({ backendUrl, JWTToken }: { backendUrl: string, JWTToken: string }) {
+export default function CurrentSummary({ backendUrl, JWTToken, tokenLoaded }: { backendUrl: string, JWTToken: string, tokenLoaded: boolean }) {
 
   const intervalTime = 10; 
 
@@ -53,7 +53,9 @@ export default function CurrentSummary({ backendUrl, JWTToken }: { backendUrl: s
         console.error("Fetch failed:", error);
       }
     }
-    retrieveSystemData();
+    if (tokenLoaded) {
+      retrieveSystemData();
+    }
   }, [backendUrl, JWTToken])
 
   useEffect(() => {
@@ -74,8 +76,9 @@ export default function CurrentSummary({ backendUrl, JWTToken }: { backendUrl: s
         console.error("Fetch failed:", error);
       }
     }
-
-    retrieveCurrentData(); 
+    if (tokenLoaded) {
+      retrieveCurrentData();
+    }
     const intervalId = setInterval(retrieveCurrentData, intervalTime * 1000);
     return () => {
       clearInterval(intervalId);

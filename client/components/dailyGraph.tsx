@@ -22,7 +22,7 @@ const convertTimeToTimestamp = (timeStr: string): number => {
     return date.getTime(); 
 };
 
-export default function DailyGraph({ backendUrl, JWTToken }: { backendUrl: string, JWTToken: string }) {
+export default function DailyGraph({ backendUrl, JWTToken, tokenLoaded }: { backendUrl: string, JWTToken: string, tokenLoaded: boolean }) {
 
   const initialTimeLabels: string[] = Array.from({ length: 289 }, (_, i) => {
     const totalMinutes = i * 5;
@@ -166,7 +166,9 @@ export default function DailyGraph({ backendUrl, JWTToken }: { backendUrl: strin
         console.error("Fetch failed:", error);
       }
     }
-    retrieveDailyGraphData();
+    if (tokenLoaded) {
+      retrieveDailyGraphData();
+    }
   }, [backendUrl, JWTToken])
 
   return (

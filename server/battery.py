@@ -20,7 +20,6 @@ def system_data():
         headers=headers, timeout=10
     )
     response.raise_for_status()
-    print(response.json())
     data = response.json().get('data')[0]
     return jsonify({
         'systemSerialNum': data.get('sysSn'), # Single Value
