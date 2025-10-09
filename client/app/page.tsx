@@ -9,7 +9,7 @@ import DailyGraph from "@/components/dailyGraph";
 export default function Home() {
   
   // TODO: Change backendUrl to use a prop or reactContext
-  const backendUrl: string = process.env.backendUrl || 'http://localhost:5000/'
+  const backendUrl: string = process.env.backendUrl || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000/'
   const [JWTToken, setJWTToken] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
 
