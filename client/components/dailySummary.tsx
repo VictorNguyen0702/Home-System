@@ -56,7 +56,7 @@ export default function DailySummary({ backendUrl, JWTToken }: { backendUrl: str
   }, [backendUrl, JWTToken])
 
   return (
-    <div className="grid grid-cols-4 items-center justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
+    <div className="grid grid-cols-4 mx-auto items-center justify-items-center text-white bg-gray-800 rounded-2xl p-5 gap-15">
       <div className="flex flex-col items-center justify-items-center gap-3">
         <img src='/logos/house.svg' width={75} height={75} />
         <div className="flex flex-col items-center justify-items-center gap-1">
