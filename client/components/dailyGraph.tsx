@@ -79,14 +79,25 @@ export default function DailyGraph({ backendUrl, JWTToken, tokenLoaded }: { back
     },
     xaxis: {
       categories: dailyGraphData.time,
-      tickAmount: 12,
       axisTicks: {
         show: false
       },
       labels: {
         rotate: 0,
+        formatter: (value) => {
+          if (typeof value === 'string' && value.includes(':')) {
+            const hourString = value.split(':')[0]; // e.g., '02'
+            if (value.split(':')[1] === '00') {
+              const hour = parseInt(hourString, 10);
+              if (hour % 2 === 0) {
+                return value;
+              }
+            }
+          }
+          return ''
+        },
         style: {
-          colors: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
+          colors: '#FFFFFF'
         },
       },
     },
