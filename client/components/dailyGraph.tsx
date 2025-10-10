@@ -86,7 +86,7 @@ export default function DailyGraph({ backendUrl, JWTToken, tokenLoaded }: { back
       labels: {
         rotate: 0,
         style: {
-          colors: new Array(15).fill('#FFFFFF')
+          colors: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']
         },
       },
     },
